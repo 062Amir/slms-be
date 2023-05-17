@@ -1,8 +1,9 @@
 import { Request, Response, Router } from "express";
-import { AppMessages, HttpStatus, UserRoles } from "../data/app.constants";
-import { createDepartment, deleteDepartment, getDepartments, getSingleDepartment, updateDepartment } from "../services/department.service";
-import auth from "../middleware/auth.middleware";
+import AsyncHandler from "express-async-handler";
 import { AppError } from "../classes/app-error.class";
+import { AppMessages, HttpStatus, UserRoles } from "../data/app.constants";
+import Auth from "../middleware/auth.middleware";
+import { createDepartment, deleteDepartment, getDepartments, getSingleDepartment, updateDepartment } from "../services/department.service";
 
 const departmentController = Router();
 
@@ -12,14 +13,13 @@ const departmentController = Router();
   @access: Public
   @role: Any
 */
-departmentController.get("/", async (req: Request, res: Response) => {
-  try {
+departmentController.get(
+  "/",
+  AsyncHandler(async (req: Request, res: Response) => {
     const response = await getDepartments(req);
     res.status(HttpStatus.OK).json(response);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
 /*
   @desc: Get single department
@@ -27,43 +27,42 @@ departmentController.get("/", async (req: Request, res: Response) => {
   @access: Private
   @role: Any
 */
-departmentController.get("/:id", async (req: Request, res: Response) => {
-  try {
+departmentController.get(
+  "/:id",
+  AsyncHandler(async (req: Request, res: Response) => {
     const department = await getSingleDepartment(req.params.id);
     if (!department) {
       throw new AppError(HttpStatus.NOT_FOUND, AppMessages.DEPARTMENT_NOT_EXIST);
     }
     res.status(HttpStatus.OK).json(department);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
-departmentController.post("/", auth([UserRoles.ADMIN]), async (req: Request, res: Response) => {
-  try {
+departmentController.post(
+  "/",
+  Auth([UserRoles.ADMIN]),
+  AsyncHandler(async (req: Request, res: Response) => {
     const department = await createDepartment(req.body);
     res.status(HttpStatus.CREATED).json(department);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
-departmentController.put("/:id", auth([UserRoles.ADMIN]), async (req: Request, res: Response) => {
-  try {
+departmentController.put(
+  "/:id",
+  Auth([UserRoles.ADMIN]),
+  AsyncHandler(async (req: Request, res: Response) => {
     const response = await updateDepartment(req.params.id, req.body);
     res.status(HttpStatus.OK).json(response);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
-departmentController.delete("/:id", auth([UserRoles.ADMIN]), async (req: Request, res: Response) => {
-  try {
+departmentController.delete(
+  "/:id",
+  Auth([UserRoles.ADMIN]),
+  AsyncHandler(async (req: Request, res: Response) => {
     const response = await deleteDepartment(req.params.id);
     res.status(HttpStatus.OK).json(response);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
 export default departmentController;

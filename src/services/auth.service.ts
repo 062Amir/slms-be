@@ -37,7 +37,7 @@ const login = async (reqBody: ILoginCredentials): Promise<ILoginResponse> => {
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.ACCOUNT_INACTIVE);
   }
 
-  user = { ...user.toJSON(), password: "" };
+  user = { ...user.toJSON(), password: undefined };
   const encryptedUser = encodeBase64(encodeBase64(user));
 
   // Creating token
@@ -47,7 +47,7 @@ const login = async (reqBody: ILoginCredentials): Promise<ILoginResponse> => {
 };
 
 const resetPassVerifyEmail = async (email: string): Promise<{ user: IUser; link: string }> => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("-password");
 
   if (!user) {
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.USER_NOT_EXIST);
@@ -80,9 +80,9 @@ const updatePassword = async (reqBody: IUpdatePassword) => {
 
   const hashedPassword = await bcryptValue(reqBody.password);
   await User.findByIdAndUpdate(reqBody.userId, { password: hashedPassword });
-  const user: any = await User.findById({ _id: reqBody.userId });
+  const user: any = await User.findById({ _id: reqBody.userId }).select("-password");
   await passwordResetToken.deleteOne();
-  return { ...user.toJSON(), password: "" };
+  return user;
 };
 
 const logout = (req: Request) => {

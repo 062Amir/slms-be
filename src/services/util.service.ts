@@ -21,6 +21,14 @@ const decodeBase64 = (value: any) => {
   return JSON.parse(Buffer.from(value, "base64").toString("ascii"));
 };
 
+const camelToTitleCase = (value: string) =>
+  value
+    .replace(/([A-Z])/g, (match) => ` ${match}`)
+    .replace(/^./, (match) => match.toUpperCase())
+    .trim()
+    .toLowerCase()
+    .replace(/^./, (match) => match.toUpperCase());
+
 const buildQuery = (queryBuilderKey: `${QueryBuilderKeys}`, req: Request, defaultValues?: IQuery): IBuildQuery => {
   const queryParams: IQuery = {
     page: parseInt(req.query.page as string) - 1 || defaultValues?.page || 0,
@@ -96,4 +104,4 @@ const buildQuery = (queryBuilderKey: `${QueryBuilderKeys}`, req: Request, defaul
   }
 };
 
-export { bcryptValue, compareBcryptValue, encodeBase64, decodeBase64, buildQuery };
+export { bcryptValue, compareBcryptValue, encodeBase64, decodeBase64, buildQuery, camelToTitleCase };

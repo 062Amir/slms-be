@@ -3,9 +3,9 @@ import * as jwt from "jsonwebtoken";
 import { AppMessages, HttpStatus, UserRoles, UserStatus } from "../data/app.constants";
 import { AppError } from "../classes/app-error.class";
 import { decodeBase64 } from "../services/util.service";
-import { getItem, removeItem } from "../services/cache.service";
+import { getItem } from "../services/cache.service";
 
-const auth = (roles?: `${UserRoles}`[]) => {
+const Auth = (roles?: `${UserRoles}`[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers && req.headers.authorization ? req.headers.authorization.split("Bearer ")[1] : "";
     try {
@@ -28,4 +28,4 @@ const auth = (roles?: `${UserRoles}`[]) => {
   };
 };
 
-export default auth;
+export default Auth;

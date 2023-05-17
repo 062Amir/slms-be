@@ -12,13 +12,13 @@ const getUsers = async (req: Request): Promise<IListResponse> => {
   const { query, queryParams } = buildQuery(QueryBuilderKeys.USER_LIST, req);
 
   let users = await User.find(query)
+    .select("-password")
     .populate(PopulateKeys.DEPARTMENT)
     .sort([[queryParams.sort, queryParams.sortBy]])
     .skip(queryParams.page * queryParams.limit)
     .limit(queryParams.limit);
 
   const total = await User.countDocuments(query);
-  // TODO: Need to check is api returning password
   return {
     data: users,
     total,
@@ -30,14 +30,6 @@ const createUser = async (reqBody: IUser): Promise<IUser> => {
   const errorMessage = validate(ValidationKeys.NEW_USER, reqBody);
   if (errorMessage) {
     throw new AppError(HttpStatus.BAD_REQUEST, errorMessage);
-  }
-
-  // Checking is user already exist
-  const existUser = await User.findOne({
-    $or: [{ email: reqBody.email }, { userName: reqBody.userName }, { contactNumber: reqBody.contactNumber }],
-  });
-  if (existUser) {
-    throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.USER_ALREADY_EXISTS);
   }
 
   // Hashing Password before saving into DB
@@ -56,11 +48,11 @@ const createUser = async (reqBody: IUser): Promise<IUser> => {
     status: reqBody.status || UserStatus.INACTIVE,
   });
   const savedUser: any = await user.save();
-  return { ...savedUser.toJSON(), password: "", department: await getSingleDepartment(savedUser.department as string) };
+  return { ...savedUser.toJSON(), password: undefined, department: await getSingleDepartment(savedUser.department as string) };
 };
 
 const getSingleUser = async (id: string): Promise<IUser | null> => {
-  return await User.findOne({ _id: id }).populate(PopulateKeys.DEPARTMENT);
+  return await User.findOne({ _id: id }).select("-password").populate(PopulateKeys.DEPARTMENT);
 };
 
 const updateUser = async (id: string, reqBody: IUser, updateStatus?: boolean): Promise<any> => {
@@ -75,7 +67,7 @@ const updateUser = async (id: string, reqBody: IUser, updateStatus?: boolean): P
     throw new AppError(HttpStatus.NOT_FOUND, AppMessages.USER_NOT_EXIST);
   }
 
-  return await User.findByIdAndUpdate(id, reqBody).populate(PopulateKeys.DEPARTMENT);
+  return await User.findByIdAndUpdate(id, reqBody).select("-password").populate(PopulateKeys.DEPARTMENT);
 };
 
 const deleteUser = async (id: string): Promise<any> => {
