@@ -16,7 +16,7 @@ export enum AppMessages {
   ACCOUNT_ACTIVATION_BTN_TEXT = "Let's Login Now!",
   ACCOUNT_REGISTERED_MAIL_SUBJECT = "SLMS: Account Registered",
   ACCOUNT_REGISTERED_MAIL_TITLE = "Account Registered",
-  ACCOUNT_REGISTERED_MAIL_MESSAGE = "You have been successfully registered at SLMS Portal. Please wait until your HOD activates your account or contact your HOD for account activation.",
+  ACCOUNT_REGISTERED_MAIL_MESSAGE = "You have been successfully registered at SLMS system. Please wait until your HOD activates your account or contact your HOD for account activation.",
   ACCOUNT_CREATED_MAIL_SUBJECT = "SLMS: Account Created",
   ACCOUNT_CREATED_MAIL_TITLE = "Account Created",
   ACCOUNT_CREATED_BTN_TEXT = "Let's Login Now!",
@@ -45,6 +45,7 @@ export enum AppDefaults {
   SORT = "createdAt",
   SORT_BY = SortBy.DESC,
   RESET_TOKEN_EXPIRY = 600, // 600 seconds = 10 minutes
+  ONE_DAY_IN_MILLISECONDS = 86400000,
 }
 
 export enum UserRoles {
