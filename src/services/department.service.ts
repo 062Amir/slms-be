@@ -31,12 +31,6 @@ const createDepartment = async (reqBody: IDepartment): Promise<IDepartment> => {
     throw new AppError(HttpStatus.BAD_REQUEST, errorMessage);
   }
 
-  // Checking is department already exist with same name
-  const departmentExist = await isDepartmentExistWithSame(reqBody.name);
-  if (departmentExist) {
-    throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.DEPARTMENT_EXIST);
-  }
-
   // Saving data in DB
   const department = new Department({
     name: reqBody.name || "",
@@ -60,13 +54,7 @@ const updateDepartment = async (id: string, reqBody: IDepartment): Promise<any> 
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.DEPARTMENT_NOT_EXIST);
   }
 
-  // Checking is department already exist with same name
-  const departmentExist = await isDepartmentExistWithSame(reqBody.name);
-  if (departmentExist && departmentExist._id.toString() !== id) {
-    throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.DEPARTMENT_EXIST);
-  }
-
-  return await Department.findByIdAndUpdate(id, reqBody, { new: true });
+  return await Department.findByIdAndUpdate(id, reqBody);
 };
 
 const deleteDepartment = async (id: string): Promise<any> => {
@@ -77,10 +65,6 @@ const deleteDepartment = async (id: string): Promise<any> => {
 
   await Department.deleteOne({ _id: id });
   return { _id: id };
-};
-
-const isDepartmentExistWithSame = (name: string) => {
-  return Department.findOne({ name });
 };
 
 export { getDepartments, createDepartment, getSingleDepartment, updateDepartment, deleteDepartment };

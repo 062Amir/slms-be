@@ -86,7 +86,12 @@ const updateLeave = async (id: string, req: Request): Promise<any> => {
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.LEAVE_EXIST_IN_RANGE);
   }
 
-  return await Leave.findByIdAndUpdate(id, req.body).populate(PopulateKeys.USER).populate(PopulateKeys.DEPARTMENT);
+  return await Leave.findByIdAndUpdate(id, req.body)
+    .populate({
+      path: PopulateKeys.USER,
+      select: "name _id",
+    })
+    .populate(PopulateKeys.DEPARTMENT);
 };
 
 const updateLeaveStatus = async (id: string, status: `${LeaveStatus}`): Promise<any> => {
@@ -101,7 +106,12 @@ const updateLeaveStatus = async (id: string, status: `${LeaveStatus}`): Promise<
     throw new AppError(HttpStatus.NOT_FOUND, AppMessages.LEAVE_NOT_EXIST);
   }
 
-  return await Leave.findByIdAndUpdate(id, { status }).populate(PopulateKeys.USER).populate(PopulateKeys.DEPARTMENT);
+  return await Leave.findByIdAndUpdate(id, { status })
+    .populate({
+      path: PopulateKeys.USER,
+      select: "name _id",
+    })
+    .populate(PopulateKeys.DEPARTMENT);
 };
 
 const deleteLeave = async (id: string): Promise<any> => {

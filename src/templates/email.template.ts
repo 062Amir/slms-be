@@ -426,7 +426,7 @@ const getAccountCreatedTemplate = (userInfo: IUser) => {
   return getTemplate({
     name: userInfo.name,
     title: AppMessages.ACCOUNT_CREATED_MAIL_TITLE,
-    message: `Your account has been successfully created at SLMS Portal by your HOD. Please use email: <i>${userInfo.email}</i> and password: <i>${userInfo.password}</i> to login at SLMS Portal.`,
+    message: `Your account has been successfully created at SLMS system by your HOD. Please use email: <i>${userInfo.email}</i> and password: <i>${userInfo.password}</i> to login at SLMS system.`,
     btnText: AppMessages.ACCOUNT_CREATED_BTN_TEXT,
   });
 };

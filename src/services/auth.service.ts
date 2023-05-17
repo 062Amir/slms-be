@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { AppError } from "../classes/app-error.class";
-import { AppMessages, HttpStatus, PopulateKeys, UserStatus, ValidationKeys } from "../data/app.constants";
+import { AppDefaults, AppMessages, HttpStatus, PopulateKeys, UserStatus, ValidationKeys } from "../data/app.constants";
 import { ILoginCredentials } from "../interfaces/login-credentials.interface";
 import { IUser } from "../interfaces/user.interface";
 import User from "../models/user.model";
@@ -10,6 +10,7 @@ import * as jwt from "jsonwebtoken";
 import ResetToken from "../models/reset-token.model";
 import { bcryptValue } from "./util.service";
 import { IUpdatePassword } from "../interfaces/reset.interface";
+import { removeItem, setItem } from "./cache.service";
 
 interface ILoginResponse {
   token: string;
@@ -36,16 +37,17 @@ const login = async (reqBody: ILoginCredentials): Promise<ILoginResponse> => {
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.ACCOUNT_INACTIVE);
   }
 
-  user = { ...user.toJSON(), password: "" };
+  user = { ...user.toJSON(), password: undefined };
   const encryptedUser = encodeBase64(encodeBase64(user));
 
   // Creating token
   const token = jwt.sign({ user: encryptedUser }, process.env.TOKEN_SECRET_KEY || "", { expiresIn: "1d" });
+  setItem(token, user._id, AppDefaults.ONE_DAY_IN_MILLISECONDS);
   return { token, user };
 };
 
 const resetPassVerifyEmail = async (email: string): Promise<{ user: IUser; link: string }> => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("-password");
 
   if (!user) {
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.USER_NOT_EXIST);
@@ -78,13 +80,18 @@ const updatePassword = async (reqBody: IUpdatePassword) => {
 
   const hashedPassword = await bcryptValue(reqBody.password);
   await User.findByIdAndUpdate(reqBody.userId, { password: hashedPassword });
-  const user: any = await User.findById({ _id: reqBody.userId });
+  const user: any = await User.findById({ _id: reqBody.userId }).select("-password");
   await passwordResetToken.deleteOne();
-  return { ...user.toJSON(), password: "" };
+  return user;
 };
 
 const logout = (req: Request) => {
-  // TODO: Need to implement logout
+  const token = req.headers && req.headers.authorization ? req.headers.authorization.split("Bearer ")[1] : "";
+  if (token) {
+    // Removing token from cache
+    removeItem(token);
+  }
+  return true;
 };
 
-export { login, resetPassVerifyEmail, updatePassword };
+export { login, resetPassVerifyEmail, updatePassword, logout };

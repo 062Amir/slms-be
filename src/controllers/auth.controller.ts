@@ -1,17 +1,20 @@
 import { Request, Response, Router } from "express";
-import { AppMessages, HttpStatus, UserStatus } from "../data/app.constants";
-import { createUser } from "../services/user.service";
-import { login, resetPassVerifyEmail, updatePassword } from "../services/auth.service";
-import { uploadFileOnFirebase } from "../services/upload.service";
-import imageValidator from "../validators/image.validator";
+import AsyncHandler from "express-async-handler";
 import { AppError } from "../classes/app-error.class";
+import { AppMessages, HttpStatus, UserStatus } from "../data/app.constants";
+import Auth from "../middleware/auth.middleware";
+import { login, logout, resetPassVerifyEmail, updatePassword } from "../services/auth.service";
 import { sendAccountRegisteredMail, sendResetPasswordMail } from "../services/mail.service";
+import { uploadFileOnFirebase } from "../services/upload.service";
+import { createUser } from "../services/user.service";
+import imageValidator from "../validators/image.validator";
 
 const authController = Router();
 
-authController.post("/register", imageValidator, async (req: Request, res: Response) => {
-  try {
-    // TODO: File error to be handle
+authController.post(
+  "/register",
+  imageValidator,
+  AsyncHandler(async (req: Request, res: Response) => {
     let uploadedFileUrl = null;
     if (req.file) {
       uploadedFileUrl = await uploadFileOnFirebase(req.file as Express.Multer.File);
@@ -22,37 +25,40 @@ authController.post("/register", imageValidator, async (req: Request, res: Respo
     const user = await createUser({ ...req.body, status: UserStatus.INACTIVE, profileImage: uploadedFileUrl });
     await sendAccountRegisteredMail(user);
     res.status(HttpStatus.OK).json(user);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
-authController.post("/login", async (req: Request, res: Response) => {
-  try {
+authController.post(
+  "/login",
+  AsyncHandler(async (req: Request, res: Response) => {
     const response = await login(req.body);
     res.status(HttpStatus.OK).json(response);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
-authController.post("/verify-email", async (req: Request, res: Response) => {
-  try {
+authController.post(
+  "/logout",
+  Auth(),
+  AsyncHandler(async (req: Request, res: Response) => {
+    const response = logout(req);
+    res.status(HttpStatus.OK).json(response);
+  })
+);
+
+authController.post(
+  "/verify-email",
+  AsyncHandler(async (req: Request, res: Response) => {
     const response = await resetPassVerifyEmail(req.body.email);
     await sendResetPasswordMail(response.user, response.link);
-    res.status(HttpStatus.OK).json({ link: response.link });
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
-authController.post("/reset", async (req: Request, res: Response) => {
-  try {
+authController.post(
+  "/reset",
+  AsyncHandler(async (req: Request, res: Response) => {
     const user = await updatePassword(req.body);
     res.status(HttpStatus.OK).json(user);
-  } catch (error: any) {
-    res.status(error?.code || HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error?.message, error });
-  }
-});
+  })
+);
 
 export default authController;
