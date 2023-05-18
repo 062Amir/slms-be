@@ -39,7 +39,7 @@ export enum SortBy {
 }
 
 export enum AppDefaults {
-  FILE_SIZE_LIMIT = 1 * 1024 * 1024, // keep images size < 2 MB
+  FILE_SIZE_LIMIT = 2097152, // keep images size < 2 MB
   USER_PROFILE_FIELD_NAME = "profileImage",
   FIREBASE_STORAGE_FOLDER_NAME = "user-profiles",
   EMAIL_SERVICE = "gmail",

@@ -82,11 +82,11 @@ const buildQuery = (queryBuilderKey: `${QueryBuilderKeys}`, req: Request, defaul
       };
       if (req.query.fromDate && req.query.toDate) {
         const date = {
-          fromDate: req.query.fromDate.toString().split("T")[0],
-          toDate: req.query.toDate.toString().split("T")[0],
+          fromDate: req.query.fromDate as string,
+          toDate: req.query.toDate as string,
         };
-        query.$and.push({ fromDate: { $gte: new Date(date.fromDate) } });
-        query.$and.push({ toDate: { $lte: new Date(date.toDate) } });
+        query.$and.push({ fromDate: { $lte: new Date(date.toDate) } });
+        query.$and.push({ toDate: { $gte: new Date(date.fromDate) } });
       }
       if (req.query.status) {
         query.$and.push({ status: { $eq: req.query.status } });
