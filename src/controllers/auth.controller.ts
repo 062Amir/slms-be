@@ -50,6 +50,7 @@ authController.post(
   AsyncHandler(async (req: Request, res: Response) => {
     const response = await resetPassVerifyEmail(req.body.email);
     await sendResetPasswordMail(response.user, response.link);
+    res.status(HttpStatus.OK).json(response.link);
   })
 );
 
