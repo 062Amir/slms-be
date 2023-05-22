@@ -1,0 +1,788 @@
+{
+	"info": {
+		"_postman_id": "dcd2d702-63c1-4d42-97d4-e801bfc38868",
+		"name": "SLMS-MEAN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "Get All Departments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NTY4ZThlYTVlMWEyNmQ5YTEyOWNkMyIsIm5hbWUiOiJBbWlyIiwidXNlck5hbWUiOiJhbWlyQDEyMyIsImVtYWlsIjoiYW1pckBnbWFpbC5jb20iLCJjb250YWN0TnVtYmVyIjoiNzQxNTM3MjAwNiIsImRlcGFydG1lbnRJZCI6IjY0NTY4MTI5OTVkMTBlMTMyZTc2MDY2OCIsInJvbGUiOiJIT0QiLCJwYXNzd29yZCI6IiQyYSQxMCRMOWhnL1NhVER6YzRDVzEzTzVaTGguc3A2ZXk3NnJsbTVmWlJDclo5R1BwdzNiS3AvMXpydSIsInByb2ZpbGVJbWFnZSI6bnVsbCwiaXNBY3RpdmUiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjMtMDUtMDZUMTc6Mjk6NTAuMzg5WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDUtMDZUMTc6Mjk6NTAuMzg5WiIsIl9fdiI6MH0sImlhdCI6MTY4MzM5NDcwMn0.Fq_AsMQY9kgW1wTzu7Ai9d6i-_txXoCvSNxZnNYbpLw",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "es",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Department",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Development\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/departments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Department",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/departments/64575ff4ffe5d3f0ac74991f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"64575ff4ffe5d3f0ac74991f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Department",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/departments/6457b5cd6dc5922d4603fa12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"6457b5cd6dc5922d4603fa12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Department",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/departments/645b72d8f729db862121aa70",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"departments",
+								"645b72d8f729db862121aa70"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Uses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "74153",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "desc",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "department",
+									"value": "6458a56a92e89d589c3c5014",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "Inactive",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Adil",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "adil@123",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "khanmdadil062@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "contactNumber",
+									"value": "7415372023",
+									"type": "text"
+								},
+								{
+									"key": "department",
+									"value": "6458a56a92e89d589c3c5014",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "HOD",
+									"type": "text"
+								},
+								{
+									"key": "profileImage",
+									"type": "file",
+									"src": "/C:/Users/User/Downloads/pasted image 0.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/645a38c9fde744f55ce54629",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"645a38c9fde744f55ce54629"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Adil",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "adil@123",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "adil@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "contactNumber",
+									"value": "7415372000",
+									"type": "text"
+								},
+								{
+									"key": "profileImage",
+									"type": "file",
+									"src": "/C:/Users/User/Downloads/pasted image 0.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/6458f321a12817308f3bff5f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"6458f321a12817308f3bff5f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/6458a46e372e26b09e0ac171/activate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"6458a46e372e26b09e0ac171",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/6458a46e372e26b09e0ac171/deactivate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"6458a46e372e26b09e0ac171",
+								"deactivate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leaves",
+			"item": [
+				{
+					"name": "Get All Leaves",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/leaves",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"leaves"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "wedding",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "desc",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "Pending",
+									"disabled": true
+								},
+								{
+									"key": "fromDate",
+									"value": "2023-05-21T12:23:23.208+00:00",
+									"disabled": true
+								},
+								{
+									"key": "toDate",
+									"value": "2023-05-22T12:23:23.208+00:00",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Leave",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fromDate\": \"2023-05-11T12:23:23.208+00:00\",\r\n    \"toDate\": \"2023-05-16T12:23:23.208+00:00\",\r\n    \"reason\": \"Sick Leave\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/leaves",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"leaves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leave",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fromDate\": \"2023-05-20T12:23:23.208+00:00\",\r\n    \"toDate\": \"2023-05-20T12:23:23.208+00:00\",\r\n    \"reason\": \"Leave updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/leaves/645cfbfc139b88c68167c0c3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"leaves",
+								"645cfbfc139b88c68167c0c3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Leave",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/leaves/645cfbfc139b88c68167c0c3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"leaves",
+								"645cfbfc139b88c68167c0c3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Leave",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/leaves/645cfbfc139b88c68167c0c3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"leaves",
+								"645cfbfc139b88c68167c0c3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Md Adil",
+							"type": "text"
+						},
+						{
+							"key": "userName",
+							"value": "adil@123",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "khanmdadil062@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "contactNumber",
+							"value": "7415372021",
+							"type": "text"
+						},
+						{
+							"key": "departmentId",
+							"value": "6458a57292e89d589c3c5017",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "HOD",
+							"type": "text"
+						},
+						{
+							"key": "profileImage",
+							"type": "file",
+							"src": "/C:/Users/User/Downloads/user-sign-icon-person-symbol-human-avatar-vector-12693195.jpg"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"userName\": \"admin@123\",\r\n      \"password\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://slms.onrender.com/auth/login",
+					"protocol": "https",
+					"host": [
+						"slms",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Pass Verify Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"amir.md@neosoftmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/verify-email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"verify-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\":\"IklqWTBOV0kwT1RZeFpqSXpOVE14WkRZME5EZzVZekV3WkRFMk9EUXhNemcyTlRrek5Ea2ki\",\r\n    \"userId\":\"645b4961f23531d64489c10d\",\r\n    \"password\":\"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiSW1WNVNtWmhWMUZwVDJsSk1rNUVWVEpQUjFVMFdsZEZNVnBVUm1oTmFscHJUMWRGZUUxcWJHcGFSRTFwVEVOS2RWbFhNV3hKYW05cFVWZFNkR0ZYTkdsTVEwb3hZekpXZVZSdFJuUmFVMGsyU1cxR2EySlhiSFZSUkVWNVRYbEpjMGx0Vm5SWlYyeHpTV3B2YVZsWFVuUmhWelZCV2pJeGFHRlhkM1ZaTWpsMFNXbDNhVmt5T1hWa1IwWnFaRVUxTVdKWFNteGphVWsyU1dwWmVVNXFRVFZQUkVFd1RsUkZhVXhEU25saU1uaHNTV3B2YVZGVlVrNVRWVFJwVEVOS2QyTnRPVzFoVjNoc1UxY3hhRm95VldsUGFVcHZaRWhTZDJONmIzWk1NbHB3WTIxV2FWbFlUbXhqTTFKMlkyMUdibHBUTlc1aU1qbHVZa2RXYUdOSGJIcE1iVTUyWWxNNU1rMURPV2xNTTA1ellsaE5kRnBIVmpKTWJVWjNZMGhPZDJJelVYVlpNamwwVERJNGRtUllUbXhqYVRGM1kyMDViV0ZYZUd4amVWVjVVbTFHYTJKWGJIVllNa1l5V1ZoU2FHTnBOWGRpYldNdldWZDRNRkJYTVd4YVIyeG9TbTVTZG1FeVZuVlFWRUV3VFdwck1GcFVRbWxNVjBrMFdtcHJkRTVIVG1wWlV6QTFXVEpSTlV4WFVYaE5SR3hxV1hwbk1GbDZXVEZaYVVselNXMU9lVnBYUmpCYVYxSkNaRU5KTmtscVNYZE5hazEwVFVSVmRFMUVXbFZOVkdNMlRXcHJOazVVUVhWTmVtYzFWMmxKYzBsdVZuZGFSMFl3V2xkU1FtUkRTVFpKYWtsM1RXcE5kRTFFVlhSTlJGcFZUVlJqTmsxcWF6Wk9WRUYxVFhwbk5WZHBTWE5KYkRsbVpHbEpOazFEZDJsak0xSm9aRWhXZWtscWIybFJWMDR3WVZoYWJFbHBkMmxhUjFaM1dWaEtNR0pYVm5Wa1EwazJaWGxLWm1GWFVXbFBhVWt5VGtSVk5GbFVWVEpaVkd0NVdsUm5OVnBFVlRSUFYwMTZXWHBWZDAxVVVXbE1RMHAxV1ZjeGJFbHFiMmxUUmtscFRFTkthbU50Vm1oa1IxWnJVVmhSYVU5cFNYbE5SRWw2VEZSQk1VeFVRVFJXUkVFelQycE5lRTlxVlRCTWFrMDFUa1p2YVV4RFNqRmpSMUpvWkVkV2ExRllVV2xQYVVsNVRVUkpla3hVUVRGTVZFRTBWa1JCTTA5cVRYaFBhbFV3VEdwTk5VNUdiMmxNUTBwbVdETlphVTlxUWpsbVVUMDlJZz09IiwiaWF0IjoxNjg0MzI3MDQxLCJleHAiOjE2ODQ0MTM0NDF9.YVyBNUvgAYuCJfQcB5lqaM4b2XOHMlVk91PL0bcItGQ",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

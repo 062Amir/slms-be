@@ -7,12 +7,6 @@ import { createDepartment, deleteDepartment, getDepartments, getSingleDepartment
 
 const departmentController = Router();
 
-/*
-  @desc: Get all departments
-  @route: /departments
-  @access: Public
-  @role: Any
-*/
 departmentController.get(
   "/",
   AsyncHandler(async (req: Request, res: Response) => {
@@ -21,12 +15,6 @@ departmentController.get(
   })
 );
 
-/*
-  @desc: Get single department
-  @route: /departments/:id
-  @access: Private
-  @role: Any
-*/
 departmentController.get(
   "/:id",
   AsyncHandler(async (req: Request, res: Response) => {
