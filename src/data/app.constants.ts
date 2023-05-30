@@ -31,6 +31,7 @@ export enum AppMessages {
   CAN_NOT_UPDATE_LEAVE = "You can't update leave because leave is",
   CAN_NOT_DELETE_LEAVE = "You can't delete leave because leave is",
   INVALID_OR_EXPIRE_TOKEN = "Invalid or expired password reset token",
+  USER_WITH_DEPARTMENT_EXIST = "There are some users associated with this department, Please delete them first",
 }
 
 export enum SortBy {
