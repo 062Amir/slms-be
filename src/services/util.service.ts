@@ -69,6 +69,7 @@ const buildQuery = (queryBuilderKey: `${QueryBuilderKeys}`, req: Request, defaul
         query.$and.push({ role: { $eq: UserRoles.HOD } });
       }
       if (req.user.role === UserRoles.HOD) {
+        query.$and.push({ department: { $eq: req.user.department?._id } });
         query.$and.push({ role: { $eq: UserRoles.STAFF } });
       }
       return { query, queryParams };

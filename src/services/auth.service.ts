@@ -11,6 +11,7 @@ import ResetToken from "../models/reset-token.model";
 import { bcryptValue } from "./util.service";
 import { IUpdatePassword } from "../interfaces/reset.interface";
 import { removeItem, setItem } from "./cache.service";
+import { getSingleUser, updateUser } from "./user.service";
 
 interface ILoginResponse {
   token: string;
@@ -94,4 +95,20 @@ const logout = (req: Request) => {
   return true;
 };
 
-export { login, resetPassVerifyEmail, updatePassword, logout };
+const updateMe = async (req: Request) => {
+  await updateUser(req.user._id as string, req.body);
+  let updatedUser: any = await getSingleUser(req.user._id as string);
+  const currentToken = req.headers && req.headers.authorization ? req.headers.authorization.split("Bearer ")[1] : "";
+
+  removeItem(currentToken);
+
+  updatedUser = { ...updatedUser.toJSON(), password: undefined };
+  const encryptedUser = encodeBase64(encodeBase64(updatedUser));
+
+  // Creating token
+  const token = jwt.sign({ user: encryptedUser }, process.env.TOKEN_SECRET_KEY || "", { expiresIn: "1d" });
+  setItem(token, updatedUser._id, AppDefaults.ONE_DAY_IN_MILLISECONDS);
+  return { token, user: updatedUser };
+};
+
+export { login, resetPassVerifyEmail, updatePassword, logout, updateMe };

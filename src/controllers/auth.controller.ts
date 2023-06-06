@@ -3,10 +3,10 @@ import AsyncHandler from "express-async-handler";
 import { AppError } from "../classes/app-error.class";
 import { AppMessages, HttpStatus, UserStatus } from "../data/app.constants";
 import Auth from "../middleware/auth.middleware";
-import { login, logout, resetPassVerifyEmail, updatePassword } from "../services/auth.service";
+import { login, logout, resetPassVerifyEmail, updateMe, updatePassword } from "../services/auth.service";
 import { sendAccountRegisteredMail, sendResetPasswordMail } from "../services/mail.service";
 import { uploadFileOnFirebase } from "../services/upload.service";
-import { createUser } from "../services/user.service";
+import { createUser, updateUser } from "../services/user.service";
 import imageValidator from "../validators/image.validator";
 
 const authController = Router();
@@ -59,6 +59,23 @@ authController.post(
   AsyncHandler(async (req: Request, res: Response) => {
     const user = await updatePassword(req.body);
     res.status(HttpStatus.OK).json(user);
+  })
+);
+
+authController.put(
+  "/me",
+  Auth(),
+  imageValidator,
+  AsyncHandler(async (req: Request, res: Response) => {
+    if (req.file) {
+      const uploadedFileUrl = await uploadFileOnFirebase(req.file as Express.Multer.File);
+      if (!uploadedFileUrl) {
+        throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.INVALID_IMAGE);
+      }
+      req.body.profileImage = uploadedFileUrl;
+    }
+    const response = await updateMe(req);
+    res.status(HttpStatus.OK).json(response);
   })
 );
 
