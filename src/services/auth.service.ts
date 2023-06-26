@@ -10,7 +10,7 @@ import * as jwt from "jsonwebtoken";
 import ResetToken from "../models/reset-token.model";
 import { bcryptValue } from "./util.service";
 import { IUpdatePassword } from "../interfaces/reset.interface";
-import { removeItem, setItem } from "./cache.service";
+import { getItem, removeItem, setItem } from "./cache.service";
 import { getSingleUser, updateUser } from "./user.service";
 
 interface ILoginResponse {
@@ -38,12 +38,18 @@ const login = async (reqBody: ILoginCredentials): Promise<ILoginResponse> => {
     throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.ACCOUNT_INACTIVE);
   }
 
-  user = { ...user.toJSON(), password: undefined };
-  const encryptedUser = encodeBase64(encodeBase64(user));
+  const userId: string = user._id.toString();
+
+  // Checking is if user info and token already exist in cache
+  if (getItem(userId)) {
+    return getItem(userId) as any;
+  }
+
+  user = { ...user.toJSON(), _id: user?._id?.toString(), password: undefined };
 
   // Creating token
-  const token = jwt.sign({ user: encryptedUser }, process.env.TOKEN_SECRET_KEY || "", { expiresIn: "1d" });
-  setItem(token, user._id, AppDefaults.ONE_DAY_IN_MILLISECONDS);
+  const token = jwt.sign({ userId }, process.env.TOKEN_SECRET_KEY || "", { expiresIn: "1d" });
+  setItem(userId, { token, user }, AppDefaults.ONE_DAY_IN_MILLISECONDS);
   return { token, user };
 };
 
@@ -96,19 +102,21 @@ const logout = (req: Request) => {
 };
 
 const updateMe = async (req: Request) => {
+  const existingUser: any = await User.findOne({ _id: req.user._id });
+  if (!existingUser || !req.body.password || !(await compareBcryptValue(req.body.password, existingUser.password))) {
+    throw new AppError(HttpStatus.BAD_REQUEST, AppMessages.INVALID_PASSWORD);
+  }
+
+  delete req.body.password;
   await updateUser(req.user._id as string, req.body);
   let updatedUser: any = await getSingleUser(req.user._id as string);
   const currentToken = req.headers && req.headers.authorization ? req.headers.authorization.split("Bearer ")[1] : "";
-
-  removeItem(currentToken);
-
-  updatedUser = { ...updatedUser.toJSON(), password: undefined };
-  const encryptedUser = encodeBase64(encodeBase64(updatedUser));
-
-  // Creating token
-  const token = jwt.sign({ user: encryptedUser }, process.env.TOKEN_SECRET_KEY || "", { expiresIn: "1d" });
-  setItem(token, updatedUser._id, AppDefaults.ONE_DAY_IN_MILLISECONDS);
-  return { token, user: updatedUser };
+  setItem(
+    req.user._id as string,
+    { token: currentToken, user: { ...updatedUser.toJSON(), _id: updatedUser?._id?.toString() } },
+    AppDefaults.ONE_DAY_IN_MILLISECONDS
+  );
+  return updatedUser;
 };
 
 export { login, resetPassVerifyEmail, updatePassword, logout, updateMe };

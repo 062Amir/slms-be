@@ -9,12 +9,13 @@ const Auth = (roles?: `${UserRoles}`[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers && req.headers.authorization ? req.headers.authorization.split("Bearer ")[1] : "";
     try {
-      const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET_KEY || "");
+      const tokenInfo: any = jwt.verify(token, process.env.TOKEN_SECRET_KEY || "");
       // Checking token is exist in cache or not
-      if (!getItem(token)) {
+      if (!getItem(tokenInfo.userId)) {
         throw new AppError(HttpStatus.UNAUTHORIZED, AppMessages.SESSION_EXPIRED);
       }
-      req.user = decodeBase64(decodeBase64(decodedToken.user));
+      const userInfo: any = getItem(tokenInfo.userId);
+      req.user = userInfo.user;
       if (req.user.status !== UserStatus.ACTIVE) {
         throw new AppError(HttpStatus.UNAUTHORIZED, AppMessages.ACCOUNT_INACTIVE);
       }

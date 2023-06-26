@@ -3,6 +3,7 @@ export enum AppMessages {
   SESSION_EXPIRED = "Invalid Session/Session Expired",
   NOT_FOUND = "Resource not found",
   UNAUTHORIZED = "Unauthorized Access",
+  INVALID_PASSWORD = "Invalid password",
   USER_ALREADY_EXISTS = "User already exists with this contact number/email/username.",
   INVALID_CREDENTIALS = "Invalid credentials",
   ACCOUNT_INACTIVE = "Account is inactive, please contact to your HOD",
